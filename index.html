@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NoteEditPlus — Windows 轻量级代码/文本编辑器</title>
+<meta name="description" content="NoteEditPlus：Windows 原生、轻量、快速的代码/文本编辑器。Rust + wgpu 构建，多标签、Tree-sitter 高亮、查找替换、多编码、WASM 插件、LSP、多主题与自动更新。">
+<style>
+  :root{
+    --bg:#0e1116; --bg2:#12161d; --card:#161b23; --card2:#1b212b;
+    --line:#232b36; --txt:#e6ebf2; --mut:#9aa7b6; --dim:#6b7787;
+    --acc:#3b9eff; --acc2:#2bd4c4; --acc-soft:rgba(59,158,255,.14);
+    --radius:14px; --shadow:0 18px 50px rgba(0,0,0,.45);
+    --mono:"Cascadia Code",Consolas,"SFMono-Regular",Menlo,monospace;
+    --sans:"Segoe UI",system-ui,-apple-system,"Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  /* nav */
+  header{position:sticky;top:0;z-index:50;background:rgba(14,17,22,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:18px;letter-spacing:.2px}
+  .logo{width:34px;height:34px;flex:none}
+  .navlinks{display:flex;gap:26px;font-size:14.5px;color:var(--mut)}
+  .navlinks a:hover{color:var(--txt)}
+  .nav .btn{padding:8px 16px;font-size:14px}
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;font-weight:600;cursor:pointer;border:1px solid transparent;transition:.18s;font-size:15px}
+  .btn-primary{background:linear-gradient(135deg,var(--acc),#2a86e0);color:#fff;padding:13px 26px;box-shadow:0 8px 24px rgba(59,158,255,.28)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(59,158,255,.36)}
+  .btn-ghost{background:var(--card);border-color:var(--line);color:var(--txt);padding:13px 22px}
+  .btn-ghost:hover{border-color:#33404f;background:var(--card2)}
+  .btn.sm{padding:9px 16px;border-radius:9px;font-size:14px}
+  /* hero */
+  .hero{padding:78px 0 40px;text-align:center;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-240px;left:50%;transform:translateX(-50%);width:820px;height:520px;
+    background:radial-gradient(closest-side,rgba(59,158,255,.16),transparent 70%);pointer-events:none}
+  .hero .biglogo{width:86px;height:86px;margin:0 auto 22px;filter:drop-shadow(0 14px 34px rgba(59,158,255,.35))}
+  h1{font-size:46px;font-weight:800;letter-spacing:.5px}
+  .tag{color:var(--mut);font-size:19px;margin:16px auto 0;max-width:640px}
+  .ver{display:inline-flex;align-items:center;gap:9px;margin-top:20px;font-size:13.5px;color:var(--mut);
+    background:var(--card);border:1px solid var(--line);padding:6px 14px;border-radius:999px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--acc2)}
+  .cta{display:flex;gap:14px;justify-content:center;margin-top:32px;flex-wrap:wrap}
+  /* mockup */
+  .mock{margin:56px auto 0;max-width:900px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);
+    box-shadow:var(--shadow);background:var(--bg2);text-align:left}
+  .mock-bar{display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--card);border-bottom:1px solid var(--line)}
+  .tl{width:11px;height:11px;border-radius:50%}
+  .r{background:#ff5f57}.y{background:#febc2e}.g{background:#28c840}
+  .mock-tabs{display:flex;gap:2px;padding:0 12px;background:var(--bg2);border-bottom:1px solid var(--line);font-size:12.5px}
+  .mtab{padding:9px 16px;color:var(--dim);border-right:1px solid var(--line)}
+  .mtab.on{color:var(--txt);background:var(--bg);position:relative}
+  .mtab.on::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--acc)}
+  .mock-body{display:flex;font-family:var(--mono);font-size:13px;line-height:1.85}
+  .gutter{color:var(--dim);padding:14px 14px;text-align:right;user-select:none;border-right:1px solid var(--line);min-width:52px}
+  .code{padding:14px 18px;white-space:pre;overflow:hidden}
+  .kw{color:#569cd6}.fn{color:#dcdcaa}.str{color:#ce9178}.cm{color:#6a9955}.ty{color:#4ec9b0}.nu{color:#b5cea8}.var2{color:#9cdcfe}
+  /* sections */
+  section{padding:74px 0}
+  .sec-head{text-align:center;margin-bottom:46px}
+  .sec-head h2{font-size:32px;font-weight:800}
+  .sec-head p{color:var(--mut);margin-top:10px;font-size:16.5px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .feat .ic{width:42px;height:42px;border-radius:11px;background:var(--acc-soft);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  .feat h3{font-size:17px;margin-bottom:7px}
+  .feat p{color:var(--mut);font-size:14.5px}
+  /* update */
+  .update{background:linear-gradient(180deg,var(--bg2),var(--bg));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;position:relative}
+  .step::before{counter-increment:s;content:counter(s);position:absolute;top:-15px;left:22px;width:32px;height:32px;border-radius:9px;
+    background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .step h3{font-size:16.5px;margin:8px 0 6px}
+  .step p{color:var(--mut);font-size:14px}
+  /* download table */
+  .dl{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .dlcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;display:flex;flex-direction:column}
+  .dlcard h3{font-size:18px}
+  .dlcard .meta{color:var(--mut);font-size:13.5px;margin:8px 0 18px;flex:1}
+  .dlcard .sha{font-family:var(--mono);font-size:10.5px;color:var(--dim);word-break:break-all;margin-top:12px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+  /* changelog */
+  .changelog{max-width:760px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 30px}
+  .changelog h3{display:flex;align-items:center;gap:10px;font-size:19px}
+  .changelog ul{margin:16px 0 0 18px;color:var(--mut);font-size:14.5px}
+  .changelog li{margin:7px 0}
+  footer{border-top:1px solid var(--line);padding:34px 0;color:var(--dim);font-size:13.5px}
+  .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .foot a:hover{color:var(--txt)}
+  @media(max-width:860px){
+    .grid,.steps,.dl{grid-template-columns:1fr}
+    h1{font-size:34px}.navlinks{display:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 64 64" fill="none">
+        <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#g)"/>
+        <path d="M24 20h12l8 8v16a2 2 0 0 1-2 2H24a2 2 0 0 1-2-2V22a2 2 0 0 1 2-2z" fill="#fff" opacity=".95"/>
+        <path d="M36 20v8h8" fill="#cfe4ff"/>
+        <path d="M32 30v10M27 35h10" stroke="#2a86e0" stroke-width="3" stroke-linecap="round"/>
+        <defs><linearGradient id="g" x1="6" y1="6" x2="58" y2="58"><stop stop-color="#3b9eff"/><stop offset="1" stop-color="#2bd4c4"/></linearGradient></defs>
+      </svg>
+      NoteEditPlus
+    </div>
+    <nav class="navlinks">
+      <a href="#features">特性</a>
+      <a href="#update">自动更新</a>
+      <a href="#download">下载</a>
+      <a href="#changelog">更新日志</a>
+    </nav>
+    <a class="btn btn-primary sm" href="#download">下载 v1.0.1</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <svg class="biglogo" viewBox="0 0 64 64" fill="none">
+      <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#g2)"/>
+      <path d="M24 20h12l8 8v16a2 2 0 0 1-2 2H24a2 2 0 0 1-2-2V22a2 2 0 0 1 2-2z" fill="#fff" opacity=".95"/>
+      <path d="M36 20v8h8" fill="#cfe4ff"/>
+      <path d="M32 30v10M27 35h10" stroke="#2a86e0" stroke-width="3" stroke-linecap="round"/>
+      <defs><linearGradient id="g2" x1="6" y1="6" x2="58" y2="58"><stop stop-color="#3b9eff"/><stop offset="1" stop-color="#2bd4c4"/></linearGradient></defs>
+    </svg>
+    <h1>NoteEditPlus</h1>
+    <p class="tag">Windows 原生、轻量、快速的代码/文本编辑器。Rust + wgpu 构建，兼具 Notepad++ 的轻量与现代编辑器的体验。</p>
+    <div class="ver"><span class="dot"></span>初版 v1.0.1 · Windows x64 · 2026-10-06</div>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.1/NoteEditPlus-Setup.exe">下载安装版</a>
+      <a class="btn btn-ghost" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/latest">其他下载 / 便携版</a>
+    </div>
+
+    <div class="mock">
+      <div class="mock-bar"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span></div>
+      <div class="mock-tabs">
+        <div class="mtab on">main.rs</div>
+        <div class="mtab">config.toml</div>
+        <div class="mtab">README.md</div>
+      </div>
+      <div class="mock-body">
+        <div class="gutter">1&#10;2&#10;3&#10;4&#10;5&#10;6&#10;7&#10;8&#10;9</div>
+<div class="code"><span class="cm">// 轻量、快速，启动即用</span>
+<span class="kw">fn</span> <span class="fn">greet</span>(<span class="var2">name</span>: <span class="kw">&amp;</span><span class="ty">str</span>) -&gt; <span class="ty">String</span> {
+    <span class="kw">let</span> <span class="var2">msg</span> = <span class="kw">format!</span>(<span class="str">"你好, {name}"</span>);
+    <span class="var2">msg</span>
+}
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> <span class="var2">v</span> = <span class="nu">1</span>;
+    <span class="macro">println!</span>(<span class="str">"{}"</span>, <span class="fn">greet</span>(<span class="str">"世界"</span>));
+}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head"><h2>为高效编辑而生</h2><p>覆盖日常编码与文本处理的完整能力</p></div>
+    <div class="grid">
+      <div class="feat"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b9eff" stroke-width="2"><path d="M4 5h16M4 12h16M4 19h10"/></svg></div><h3>多标签 &amp; 会话恢复</h3><p>多标签编辑、批量关闭，定时快照与崩溃恢复，重启后自动还原工作区。</p></div>
+      <div class="feat"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b9eff" stroke-width="2"><path d="M8 4l-5 8 5 8M16 4l5 8-5 8"/></svg></div><h3>Tree-sitter 高亮</h3><p>12 种语言的精确语法高亮与代码折叠，大文件依然流畅。</p></div>
+      <div class="feat"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b9eff" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div><h3>查找替换 / 多文件搜索</h3><p>正则、整词、大小写；多文件后台搜索不阻塞界面。</p></div>
+      <div class="feat"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b9eff" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div><h3>多编码 &amp; 行尾</h3><p>UTF-8、GBK、UTF-16 等编码与 CRLF/LF/CR 行尾，BOM 自动探测。</p></div>
+      <div class="feat"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b9eff" stroke-width="2"><path d="M12 3v18M3 12h18"/></svg></div><h3>WASM 插件</h3><p>沙箱化 WASM 插件，sidecar 运行时按需启动；兼容 Scintilla 宿主。</p></div>
+      <div class="feat"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b9eff" stroke-width="2"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM2 12h20"/></svg></div><h3>LSP &amp; AI</h3><p>诊断、补全、转到定义、悬浮提示；内置 AI 辅助面板与离线智能。</p></div>
+      <div class="feat"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b9eff" stroke-width="2"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg></div><h3>多主题</h3><p>深浅多套主题与统一设计系统，字体字号一致，界面整洁美观。</p></div>
+      <div class="feat"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b9eff" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div><h3>极速启动</h3><p>GPU/字体后台并行预热、早期深色帧，默认首选核显，启动快、无白屏。</p></div>
+      <div class="feat"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b9eff" stroke-width="2"><path d="M21 12a9 9 0 11-3-6.7M21 4v5h-5"/></svg></div><h3>自动更新</h3><p>后台检测、下载并校验 SHA256，提示后一键安装/重启，始终保持最新。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="update" id="update">
+  <div class="wrap">
+    <div class="sec-head"><h2>托管自动更新</h2><p>无需四处寻找新版本，软件帮你完成检查到安装</p></div>
+    <div class="steps">
+      <div class="step"><h3>后台检查</h3><p>启动后自动读取更新清单（也可在“帮助 → 检查更新”手动检查），发现新版本才提示，失败保持静默。</p></div>
+      <div class="step"><h3>下载并校验</h3><p>确认后后台下载对应安装版或便携版，并对 SHA256 严格校验，杜绝损坏或被篡改的更新。</p></div>
+      <div class="step"><h3>安装并重启</h3><p>安装版启动安装器；便携版就地解压覆盖并自动重启，全程无需手动找文件。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="download">
+  <div class="wrap">
+    <div class="sec-head"><h2>下载 NoteEditPlus</h2><p>v1.0.1 · Windows 10/11 x64</p></div>
+    <div class="dl">
+      <div class="dlcard">
+        <h3>安装版</h3>
+        <p class="meta">每用户安装，无需管理员，含开始菜单与卸载入口，推荐大多数用户。</p>
+        <a class="btn btn-primary sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.1/NoteEditPlus-Setup.exe">下载 Setup.exe</a>
+        <div class="sha">SHA256 fe51fc65b1d1954ce1882fe14d18b3e35b76c9b0675c7d58655a341cfaa604f5</div>
+      </div>
+      <div class="dlcard">
+        <h3>便携版</h3>
+        <p class="meta">解压即用，配置随程序目录，适合 U 盘与绿色部署。</p>
+        <a class="btn btn-ghost sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.1/NoteEditPlus-1.0.1-windows-x64-portable.zip">下载便携 ZIP</a>
+        <div class="sha">SHA256 14160071565827f2d3362e4636eef38708c0ec2acb89b0fa3002363981363953</div>
+      </div>
+      <div class="dlcard">
+        <h3>WASM 运行时</h3>
+        <p class="meta">WASM 插件 sidecar（便携/安装包已内置），仅在单独按需获取时下载。</p>
+        <a class="btn btn-ghost sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.1/noteedit-wasm-host.exe">下载 wasm-host</a>
+        <div class="sha">SHA256 35707a696db86e3554f4f8d9e8b7e0c5ed9fa84a49c536979d79f5300f2b4449</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="changelog" style="padding-top:0">
+  <div class="wrap">
+    <div class="changelog">
+      <h3><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--acc2)"></span>v1.0.1 — 2026-10-06（初版）</h3>
+      <ul>
+        <li>多标签编辑、会话恢复、定时快照与崩溃恢复</li>
+        <li>Tree-sitter 12 种语言语法高亮与代码折叠</li>
+        <li>查找替换（正则/整词/大小写）与多文件后台搜索</li>
+        <li>多编码与多行尾支持，BOM 自动探测</li>
+        <li>WASM 插件 sidecar 与 Scintilla 兼容宿主</li>
+        <li>LSP 诊断/补全/转到定义/悬浮，AI 辅助面板</li>
+        <li>多主题、统一字体与设计系统，极速启动（默认核显）</li>
+        <li>托管自动更新：后台下载 + SHA256 校验 + 提示安装</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 NoteEditPlus · GPL-2.0</div>
+    <div style="display:flex;gap:20px">
+      <a href="https://github.com/haoeastspeed/noteeditplus-releases/releases">Releases</a>
+      <a href="stable.json">更新清单 stable.json</a>
+      <a href="https://github.com/haoeastspeed/noteeditplus-releases">公开仓库</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

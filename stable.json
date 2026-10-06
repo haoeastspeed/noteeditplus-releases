@@ -1,0 +1,14 @@
+{
+  "version": "1.0.1",
+  "date": "2026-10-06",
+  "notes": "NoteEditPlus 初版发布：多标签编辑、12 语言 Tree-sitter 高亮与折叠、查找替换/多文件搜索、多编码与行尾、WASM 插件、LSP、多主题、崩溃恢复，以及托管自动更新。",
+  "homepage": "https://haoeastspeed.github.io/noteeditplus-releases/",
+  "setup": {
+    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.1/NoteEditPlus-Setup.exe",
+    "sha256": "fe51fc65b1d1954ce1882fe14d18b3e35b76c9b0675c7d58655a341cfaa604f5"
+  },
+  "portable": {
+    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.1/NoteEditPlus-1.0.1-windows-x64-portable.zip",
+    "sha256": "14160071565827f2d3362e4636eef38708c0ec2acb89b0fa3002363981363953"
+  }
+}
