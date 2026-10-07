@@ -116,7 +116,7 @@
       <a href="#download">下载</a>
       <a href="#changelog">更新日志</a>
     </nav>
-    <a class="btn btn-primary sm" href="#download">下载 v1.0.3</a>
+    <a class="btn btn-primary sm" href="#download">下载 v1.0.4</a>
   </div>
 </header>
 
@@ -131,9 +131,9 @@
     </svg>
     <h1>NoteEditPlus</h1>
     <p class="tag">Windows 原生、轻量、快速的代码/文本编辑器。Rust + wgpu 构建，兼具 Notepad++ 的轻量与现代编辑器的体验。</p>
-    <div class="ver"><span class="dot"></span>v1.0.3 · Windows x64 · 2026-10-07</div>
+    <div class="ver"><span class="dot"></span>v1.0.4 · Windows x64 · 2026-10-07</div>
     <div class="cta">
-      <a class="btn btn-primary" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.3/NoteEditPlus-Setup.exe">下载安装版</a>
+      <a class="btn btn-primary" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.4/NoteEditPlus-Setup.exe">下载安装版</a>
       <a class="btn btn-ghost" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/latest">其他下载 / 便携版</a>
     </div>
 
@@ -190,25 +190,25 @@
 
 <section id="download">
   <div class="wrap">
-    <div class="sec-head"><h2>下载 NoteEditPlus</h2><p>v1.0.3 · Windows 10/11 x64</p></div>
+    <div class="sec-head"><h2>下载 NoteEditPlus</h2><p>v1.0.4 · Windows 10/11 x64</p></div>
     <div class="dl">
       <div class="dlcard">
         <h3>安装版</h3>
         <p class="meta">每用户安装，无需管理员，含开始菜单与卸载入口，推荐大多数用户。</p>
-        <a class="btn btn-primary sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.3/NoteEditPlus-Setup.exe">下载 Setup.exe</a>
-        <div class="sha">SHA256 7c5dc122c6d9490fabde5acb9c4e0997ec21f43b8b6263866e55dd09950c20e8</div>
+        <a class="btn btn-primary sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.4/NoteEditPlus-Setup.exe">下载 Setup.exe</a>
+        <div class="sha">SHA256 8a7a4070fe8c2b8971a71fbbd278a47f116349f67d6aad7855c519a6ed2c65ed</div>
       </div>
       <div class="dlcard">
         <h3>便携版</h3>
         <p class="meta">解压即用，配置随程序目录，适合 U 盘与绿色部署。</p>
-        <a class="btn btn-ghost sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.3/NoteEditPlus-1.0.3-windows-x64-portable.zip">下载便携 ZIP</a>
-        <div class="sha">SHA256 c9e2fa4b58febe5808b1b3b2de639055f0781b2fcca2af109a176b3796c6aed9</div>
+        <a class="btn btn-ghost sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.4/NoteEditPlus-1.0.4-windows-x64-portable.zip">下载便携 ZIP</a>
+        <div class="sha">SHA256 f8138cd36874e1ec9271d2167a53d0fe2589298c4b340ad973e97c195101e93d</div>
       </div>
       <div class="dlcard">
         <h3>WASM 运行时</h3>
         <p class="meta">WASM 插件 sidecar（便携/安装包已内置），仅在单独按需获取时下载。</p>
-        <a class="btn btn-ghost sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.3/noteedit-wasm-host.exe">下载 wasm-host</a>
-        <div class="sha">SHA256 aa5164f0e115843a1be1c7892d2f526de655ca988a97eee5797bc5703c45ba13</div>
+        <a class="btn btn-ghost sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.4/noteedit-wasm-host.exe">下载 wasm-host</a>
+        <div class="sha">SHA256 cc2ba6be7e8ea6706b3ee7eea1cffb8da6d9fee94be8faffc40c8f4afcc24487</div>
       </div>
     </div>
   </div>
@@ -217,6 +217,15 @@
 <section id="changelog" style="padding-top:0">
   <div class="wrap">
     <div class="changelog">
+      <h3><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--acc2)"></span>v1.0.4 — 2026-10-07（交互与菜单优化）</h3>
+      <ul>
+        <li>主题、文件编码、行尾格式、语言改为向右展开的级联子菜单，可直接点选并显示当前项</li>
+        <li>设置中的选择项改为下拉列表；设置窗口改用原生拖拽（消除拖影），关闭按钮光标状态修正</li>
+        <li>AI 助手横幅的文字与“去配置”按钮改为紧凑内联排布</li>
+        <li>修复切换主题后编辑区光标定位长时间卡顿（改为仅重映射颜色，不再重跑语法解析）</li>
+      </ul>
+    </div>
+    <div class="changelog" style="margin-top:18px">
       <h3><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--acc2)"></span>v1.0.3 — 2026-10-07（界面修复）</h3>
       <ul>
         <li>修复界面中英文混排时字体大小不一、字体怪异：界面统一使用 Segoe UI（中文回退 Microsoft YaHei UI）</li>

@@ -1,14 +1,14 @@
 {
-  "version": "1.0.3",
+  "version": "1.0.4",
   "date": "2026-10-07",
-  "notes": "修复界面中英文混排字体大小不一/字体怪异（界面统一 Segoe UI，中文回退 Microsoft YaHei UI）；菜单展开后点击菜单外区域自动关闭；左侧边栏可整体隐藏（Ctrl+B）。",
+  "notes": "主题/文件编码/行尾/语言改为向右展开的级联子菜单并直接选择；设置项选择改为下拉列表，窗口改用原生拖拽（消除拖影）、关闭按钮光标修正；AI 助手横幅文字与按钮紧凑内联；切换主题后编辑区定位不再卡顿。",
   "homepage": "https://haoeastspeed.github.io/noteeditplus-releases/",
   "setup": {
-    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.3/NoteEditPlus-Setup.exe",
-    "sha256": "7c5dc122c6d9490fabde5acb9c4e0997ec21f43b8b6263866e55dd09950c20e8"
+    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.4/NoteEditPlus-Setup.exe",
+    "sha256": "8a7a4070fe8c2b8971a71fbbd278a47f116349f67d6aad7855c519a6ed2c65ed"
   },
   "portable": {
-    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.3/NoteEditPlus-1.0.3-windows-x64-portable.zip",
-    "sha256": "c9e2fa4b58febe5808b1b3b2de639055f0781b2fcca2af109a176b3796c6aed9"
+    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.4/NoteEditPlus-1.0.4-windows-x64-portable.zip",
+    "sha256": "f8138cd36874e1ec9271d2167a53d0fe2589298c4b340ad973e97c195101e93d"
   }
 }
