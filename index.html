@@ -116,7 +116,7 @@
       <a href="#download">下载</a>
       <a href="#changelog">更新日志</a>
     </nav>
-    <a class="btn btn-primary sm" href="#download">下载 v1.0.2</a>
+    <a class="btn btn-primary sm" href="#download">下载 v1.0.3</a>
   </div>
 </header>
 
@@ -131,9 +131,9 @@
     </svg>
     <h1>NoteEditPlus</h1>
     <p class="tag">Windows 原生、轻量、快速的代码/文本编辑器。Rust + wgpu 构建，兼具 Notepad++ 的轻量与现代编辑器的体验。</p>
-    <div class="ver"><span class="dot"></span>初版 v1.0.1 · Windows x64 · 2026-10-06</div>
+    <div class="ver"><span class="dot"></span>v1.0.3 · Windows x64 · 2026-10-07</div>
     <div class="cta">
-      <a class="btn btn-primary" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.2/NoteEditPlus-Setup.exe">下载安装版</a>
+      <a class="btn btn-primary" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.3/NoteEditPlus-Setup.exe">下载安装版</a>
       <a class="btn btn-ghost" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/latest">其他下载 / 便携版</a>
     </div>
 
@@ -190,25 +190,25 @@
 
 <section id="download">
   <div class="wrap">
-    <div class="sec-head"><h2>下载 NoteEditPlus</h2><p>v1.0.2 · Windows 10/11 x64</p></div>
+    <div class="sec-head"><h2>下载 NoteEditPlus</h2><p>v1.0.3 · Windows 10/11 x64</p></div>
     <div class="dl">
       <div class="dlcard">
         <h3>安装版</h3>
         <p class="meta">每用户安装，无需管理员，含开始菜单与卸载入口，推荐大多数用户。</p>
-        <a class="btn btn-primary sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.2/NoteEditPlus-Setup.exe">下载 Setup.exe</a>
-        <div class="sha">SHA256 fe51fc65b1d1954ce1882fe14d18b3e35b76c9b0675c7d58655a341cfaa604f5</div>
+        <a class="btn btn-primary sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.3/NoteEditPlus-Setup.exe">下载 Setup.exe</a>
+        <div class="sha">SHA256 7c5dc122c6d9490fabde5acb9c4e0997ec21f43b8b6263866e55dd09950c20e8</div>
       </div>
       <div class="dlcard">
         <h3>便携版</h3>
         <p class="meta">解压即用，配置随程序目录，适合 U 盘与绿色部署。</p>
-        <a class="btn btn-ghost sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.2/NoteEditPlus-1.0.2-windows-x64-portable.zip">下载便携 ZIP</a>
-        <div class="sha">SHA256 14160071565827f2d3362e4636eef38708c0ec2acb89b0fa3002363981363953</div>
+        <a class="btn btn-ghost sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.3/NoteEditPlus-1.0.3-windows-x64-portable.zip">下载便携 ZIP</a>
+        <div class="sha">SHA256 c9e2fa4b58febe5808b1b3b2de639055f0781b2fcca2af109a176b3796c6aed9</div>
       </div>
       <div class="dlcard">
         <h3>WASM 运行时</h3>
         <p class="meta">WASM 插件 sidecar（便携/安装包已内置），仅在单独按需获取时下载。</p>
-        <a class="btn btn-ghost sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.2/noteedit-wasm-host.exe">下载 wasm-host</a>
-        <div class="sha">SHA256 35707a696db86e3554f4f8d9e8b7e0c5ed9fa84a49c536979d79f5300f2b4449</div>
+        <a class="btn btn-ghost sm" href="https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.3/noteedit-wasm-host.exe">下载 wasm-host</a>
+        <div class="sha">SHA256 aa5164f0e115843a1be1c7892d2f526de655ca988a97eee5797bc5703c45ba13</div>
       </div>
     </div>
   </div>
@@ -217,6 +217,14 @@
 <section id="changelog" style="padding-top:0">
   <div class="wrap">
     <div class="changelog">
+      <h3><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--acc2)"></span>v1.0.3 — 2026-10-07（界面修复）</h3>
+      <ul>
+        <li>修复界面中英文混排时字体大小不一、字体怪异：界面统一使用 Segoe UI（中文回退 Microsoft YaHei UI）</li>
+        <li>菜单展开后，点击菜单以外区域自动关闭，且吞掉首次点击、不误落光标</li>
+        <li>左侧边栏可整体隐藏/显示（Ctrl+B 或“视图”菜单），状态持久化</li>
+      </ul>
+    </div>
+    <div class="changelog" style="margin-top:18px">
       <h3><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--acc2)"></span>v1.0.2 — 2026-10-06（资源优化）</h3>
       <ul>
         <li>GPU 显存堆改为按需小块分配，空闲私有内存约 435MB → 约 126MB（-71%）</li>
