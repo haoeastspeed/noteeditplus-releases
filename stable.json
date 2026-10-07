@@ -1,14 +1,14 @@
 {
-  "version": "1.0.4",
+  "version": "1.0.5",
   "date": "2026-10-07",
-  "notes": "主题/文件编码/行尾/语言改为向右展开的级联子菜单并直接选择；设置项选择改为下拉列表，窗口改用原生拖拽（消除拖影）、关闭按钮光标修正；AI 助手横幅文字与按钮紧凑内联；切换主题后编辑区定位不再卡顿。",
+  "notes": "修复浅色主题下编辑区输入内容无法用退格键删除的问题（P0）；提升浅色主题行号、折叠箭头、关闭按钮等次要文字对比度；设置窗口风格与主窗统一（移除顶部蓝条、关闭按钮改为扁平×并加细边框、修正关闭按钮手形光标）。",
   "homepage": "https://haoeastspeed.github.io/noteeditplus-releases/",
   "setup": {
-    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.4/NoteEditPlus-Setup.exe",
-    "sha256": "8a7a4070fe8c2b8971a71fbbd278a47f116349f67d6aad7855c519a6ed2c65ed"
+    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.5/NoteEditPlus-Setup.exe",
+    "sha256": "60520375aa13a59729d0551c1d5113762eabf8315b7eef0fec402917378b81ce"
   },
   "portable": {
-    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.4/NoteEditPlus-1.0.4-windows-x64-portable.zip",
-    "sha256": "f8138cd36874e1ec9271d2167a53d0fe2589298c4b340ad973e97c195101e93d"
+    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.5/NoteEditPlus-1.0.5-windows-x64-portable.zip",
+    "sha256": "9a16120ea2625246f5dd0daf06f8ba55e7affb3971988496b22b33b9bdc08245"
   }
 }
