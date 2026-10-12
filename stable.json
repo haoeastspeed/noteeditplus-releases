@@ -1,14 +1,14 @@
 {
-  "version": "1.0.5",
-  "date": "2026-10-07",
-  "notes": "修复浅色主题下编辑区输入内容无法用退格键删除的问题（P0）；提升浅色主题行号、折叠箭头、关闭按钮等次要文字对比度；设置窗口风格与主窗统一（移除顶部蓝条、关闭按钮改为扁平×并加细边框、修正关闭按钮手形光标）。",
+  "version": "1.0.6",
+  "date": "2026-10-12",
+  "notes": "界面 UI 布局与配色全面对标 Notepad++ 默认版：新增 Notepad++ 默认主题并置为默认（白底、#E4E4E4 行号栏、#E8E8FF 当前行、#C0C0C0 选区、紫色光标、橙色活动标签顶线）；新增 NPP 风格彩色图标工具栏（新建/打开/保存/全部保存/撤销重做/剪切复制粘贴/查找替换/文件中查找/打印），可在设置中开关；新增只读模式（编辑菜单与标签右键）；菜单重组为 Notepad++ 12 菜单结构，编码、语言、主题等改为向右级联子菜单；修复内容区命中与弹层定位，打包自动去除网络下载标记。",
   "homepage": "https://haoeastspeed.github.io/noteeditplus-releases/",
   "setup": {
-    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.5/NoteEditPlus-Setup.exe",
-    "sha256": "60520375aa13a59729d0551c1d5113762eabf8315b7eef0fec402917378b81ce"
+    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.6/NoteEditPlus-Setup.exe",
+    "sha256": "c0b34729ff164e9542bfe207df82f66b076a50a93185830a0981e8161fd952e6"
   },
   "portable": {
-    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.5/NoteEditPlus-1.0.5-windows-x64-portable.zip",
-    "sha256": "9a16120ea2625246f5dd0daf06f8ba55e7affb3971988496b22b33b9bdc08245"
+    "url": "https://github.com/haoeastspeed/noteeditplus-releases/releases/download/v1.0.6/NoteEditPlus-1.0.6-windows-x64-portable.zip",
+    "sha256": "d9cafe882bdc6670d24867ad3fc3507f54028f50e68db5326122c13dff93d6d3"
   }
 }
